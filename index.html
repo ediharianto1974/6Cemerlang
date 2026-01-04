@@ -3,50 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPK6C PRO - 6 CEMERLANG</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>Sistem Pengurusan Kelas 6C - SKAG</title>
     <style>
         :root {
-            --n-blue: #00f3ff;
-            --n-pink: #ff0055;
-            --n-green: #39ff14;
-            --n-yellow: #fff200;
-            --bg-dark: #050508;
-            --glass: rgba(0, 0, 0, 0.85);
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff0055;
+            --neon-green: #39ff14;
+            --neon-yellow: #fff200;
+            --glass-bg: rgba(0, 0, 0, 0.85);
             --card-bg: rgba(10, 10, 15, 0.95);
-            --border-glow: 0 0 15px rgba(0, 243, 255, 0.4);
+            --active-glow: rgba(57, 255, 20, 0.3);
         }
 
-        /* 1. ASAS & LAYOUT */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             text-transform: uppercase;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         body {
-            background: var(--bg-dark);
-            /* Anda boleh letakkan space.gif jika ada, jika tidak ia akan jadi hitam elegan */
-            background-image: radial-gradient(circle at center, #0a0a1a 0%, #000 100%);
-            color: #fff;
+            background: url('space.gif') no-repeat center center fixed;
+            background-size: cover;
+            background-color: #050505;
+            color: white;
             height: 100vh;
             width: 100vw;
             overflow: hidden;
-            font-family: 'Roboto Condensed', sans-serif;
             display: flex;
+            justify-content: flex-start;
         }
 
-        /* 2. ANIMASI NEON */
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 5px var(--n-green); border-color: var(--n-green); }
-            50% { box-shadow: 0 0 20px var(--n-green); border-color: #fff; }
-            100% { box-shadow: 0 0 5px var(--n-green); border-color: var(--n-green); }
+        /* Navigasi */
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            width: 50px;
+            height: 100px;
+            cursor: pointer;
+            z-index: 3000;
+            border-radius: 12px;
+            font-size: 1.8rem;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
         }
+        .nav-btn:hover { background: var(--neon-blue); color: black; box-shadow: 0 0 25px var(--neon-blue); }
+        .nav-left { left: 15px; }
+        .nav-right { right: 15px; }
 
-        /* 3. SISTEM NAVIGASI (VIEWPORT) */
         .viewport {
             display: flex;
             width: 300vw;
@@ -57,491 +66,437 @@
         .slide {
             width: 100vw;
             height: 100vh;
-            padding: 10px 60px;
+            padding: 15px 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
         }
 
-        .nav-btn {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.8);
-            border: 2px solid var(--n-blue);
-            color: var(--n-blue);
-            width: 50px;
-            height: 100px;
-            cursor: pointer;
-            z-index: 5000;
-            border-radius: 15px;
-            font-size: 1.8rem;
-            transition: 0.3s;
-            backdrop-filter: blur(5px);
-        }
-        .nav-btn:hover { background: var(--n-blue); color: #000; box-shadow: 0 0 25px var(--n-blue); }
-        .btn-prev { left: 15px; }
-        .btn-next { right: 15px; }
-
-        /* 4. HEADER & CLOCK */
-        .header-panel {
+        /* Header Style */
+        .header-box {
             text-align: center;
-            margin-bottom: 10px;
-            background: var(--glass);
-            padding: 10px 40px;
-            border-radius: 0 0 20px 20px;
-            border: 2px solid var(--n-blue);
-            border-top: none;
-            box-shadow: var(--border-glow);
+            margin-bottom: 15px;
+            background: var(--glass-bg);
+            padding: 15px 40px;
+            border-radius: 15px;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+            width: fit-content;
         }
+        .header-box h1 { font-size: 1.5rem; color: var(--neon-blue); letter-spacing: 2px; }
+        .header-box h2 { font-size: 0.85rem; margin-top: 5px; opacity: 0.8; }
 
-        .header-panel h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            color: var(--n-blue);
-            letter-spacing: 3px;
-        }
-
-        .digital-clock {
-            position: fixed;
-            top: 15px;
-            right: 80px;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--n-blue);
-            font-size: 1.2rem;
-            background: rgba(0,0,0,0.6);
-            padding: 5px 15px;
-            border-radius: 8px;
-            border: 1px solid var(--n-blue);
-            z-index: 4000;
-        }
-
-        /* 5. KONTENA DATA */
-        .main-container {
+        .content-container {
             width: 100%;
             flex-grow: 1;
             background: var(--card-bg);
             border-radius: 20px;
             border: 1px solid rgba(0, 243, 255, 0.2);
-            padding: 20px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
             overflow-y: auto;
-            scrollbar-width: none;
-        }
-        .main-container::-webkit-scrollbar { display: none; }
-
-        /* 6. SLIDE 1: STRUKTUR (DIPERBAIKI CENTERING) */
-        .org-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .org-row {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            align-items: center;
-            gap: 20px;
-            background: rgba(255,255,255,0.03);
-            padding: 10px 20px;
-            border-radius: 10px;
-            border-left: 5px solid var(--n-blue);
-        }
-        .org-label {
-            color: var(--n-blue);
-            font-weight: 800;
-            font-size: 0.8rem;
-        }
-        .input-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center; /* KANDUNGAN DI TENGAH */
-            width: 100%;
-        }
-        .ajk-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: 100%;
-            place-items: center; /* KANDUNGAN DI TENGAH */
-        }
-        .st-in {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(0,243,255,0.3);
-            border-radius: 5px;
-            color: var(--n-green);
-            padding: 10px;
-            font-size: 0.9rem;
-            width: 100%;
-            text-align: center; /* TULISAN DI TENGAH */
-            outline: none;
         }
 
-        /* 7. SLIDE 2: JADUAL (RESPONSIVE TABLE) */
-        .table-scroll {
-            width: 100%;
-            overflow-x: auto;
+        /* Slide 1: Struktur */
+        .struct-wrapper { max-width: 950px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+        .struct-group { display: grid; grid-template-columns: 140px 1fr; align-items: center; gap: 15px; background: rgba(255, 255, 255, 0.03); padding: 8px 15px; border-radius: 8px; border-left: 3px solid var(--neon-blue); }
+        .struct-label { color: var(--neon-blue); font-size: 0.75rem; font-weight: 800; white-space: nowrap; }
+        .input-line { background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(0,243,255,0.3) !important; border-radius: 5px; color: var(--neon-green) !important; padding: 6px 12px; font-size: clamp(0.7rem, 1.5vw, 0.95rem); width: 100%; outline: none; }
+        .guru-box { display: flex; gap: 10px; align-items: center; width: 100%; }
+        .ajk-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%;}
+
+        /* Slide 2: Jadual Waktu */
+        table { width: 100%; height: 100%; border-collapse: separate; border-spacing: 4px; table-layout: fixed; }
+        th { background: rgba(0, 243, 255, 0.1); color: var(--neon-blue); font-size: 0.7rem; padding: 6px; border-radius: 5px; border: 1px solid var(--neon-blue); }
+        td { background: rgba(255, 255, 255, 0.03); border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); position: relative; transition: 0.3s; }
+        
+        /* Auto-Highlight Active Slot */
+        .active-period { 
+            border: 2px solid var(--neon-green) !important; 
+            background: var(--active-glow) !important;
+            box-shadow: 0 0 15px var(--neon-green);
         }
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 4px;
-            min-width: 900px; /* Supaya tak hancur di mobile */
-        }
-        th {
-            background: rgba(0, 243, 255, 0.15);
-            color: var(--n-blue);
-            font-size: 0.7rem;
-            padding: 10px;
-            border: 1px solid var(--n-blue);
-            font-family: 'Orbitron', sans-serif;
-        }
-        td {
-            background: rgba(255,255,255,0.02);
-            height: 70px;
-            border: 1px solid rgba(255,255,255,0.05);
+
+        .cell-content { display: flex; flex-direction: column; height: 100%; justify-content: center; }
+        .sub-in { font-size: 0.95rem; color: var(--neon-green); height: 55%; font-weight: 900; background: transparent; border: none; text-align: center; outline: none; }
+        .teach-in { font-size: 0.6rem; opacity: 0.7; height: 35%; background: transparent; border: none; text-align: center; color: white; outline: none; }
+        .rehat-col { background: rgba(255, 0, 85, 0.2) !important; color: var(--neon-pink); font-weight: 900; font-size: 1.8rem; text-align: center; border: 1px solid var(--neon-pink) !important; }
+
+        /* Slide 3: Kad Bertugas Neon */
+        .duty-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; height: 100%; }
+        .duty-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(0, 243, 255, 0.2); 
+            border-radius: 15px; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px;
             transition: 0.3s;
         }
-        .slot-active {
-            animation: pulse-glow 2s infinite ease-in-out;
-            background: rgba(57, 255, 20, 0.1) !important;
-            border: 2px solid var(--n-green) !important;
-        }
-        .tt-in-sub {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: var(--n-green);
-            font-weight: 900;
-            font-size: 1rem;
-            text-align: center;
-            outline: none;
-        }
-        .tt-in-guru {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: #aaa;
-            font-size: 0.6rem;
-            text-align: center;
-            outline: none;
-        }
-        .rehat-cell {
-            background: rgba(255, 0, 85, 0.2) !important;
-            color: var(--n-pink);
-            font-weight: 900;
-            text-align: center;
-            font-size: 1.5rem;
-            border: 1px solid var(--n-pink) !important;
-        }
+        .duty-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
+        .duty-day-title { color: var(--neon-blue); font-weight: 900; text-align: center; border-bottom: 1px solid var(--neon-blue); padding-bottom: 5px; font-size: 1rem; }
+        .duty-task { display: flex; flex-direction: column; gap: 3px; }
+        .task-label { font-size: 0.85rem; color: var(--neon-yellow); font-weight: bold; }
+        .dt-in { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 5px; padding: 5px; font-size: 0.75rem; width: 100%; text-align: center; outline: none; resize: none; }
 
-        /* 8. SLIDE 3: BERTUGAS (NEON CARDS) */
-        .duty-wrapper {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-        }
-        .duty-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(0,243,255,0.2);
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-        }
-        .duty-title {
-            color: var(--n-blue);
-            font-weight: 900;
-            border-bottom: 1px solid var(--n-blue);
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-        }
-        .task-box { margin-bottom: 12px; }
-        .task-label { font-size: 0.7rem; color: var(--n-yellow); font-weight: bold; display: block; margin-bottom: 4px; }
-        .dt-in {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 5px;
-            padding: 6px;
-            width: 100%;
-            text-align: center;
-            resize: none;
-            outline: none;
-        }
+.emoji-large {
+    font-size: 1.8rem; /* Saiz ikon lebih besar dari teks */
+    vertical-align: middle;
+    margin-right: 5px;
+    filter: drop-shadow(0 0 5px var(--neon-yellow));
+}
 
-        /* 9. BUTANG TOOLS */
-        .tools { display: flex; gap: 15px; margin-top: 15px; }
-        .btn-save {
-            padding: 12px 30px;
-            background: transparent;
-            border: 2px solid var(--n-blue);
-            color: var(--n-blue);
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 10px;
-            transition: 0.3s;
-        }
-        .btn-save:hover { background: var(--n-blue); color: #000; box-shadow: 0 0 20px var(--n-blue); }
+/* Animasi Denyutan (Pulse) */
+@keyframes pulse-live {
+    0% { transform: scale(1); box-shadow: 0 0 5px var(--neon-green); border-color: var(--neon-green); }
+    50% { transform: scale(1.02); box-shadow: 0 0 20px var(--neon-green); border-color: #fff; }
+    100% { transform: scale(1); box-shadow: 0 0 5px var(--neon-green); border-color: var(--neon-green); }
+}
 
-        /* 10. MEDIA QUERIES (FIX UNTUK TELEFON) */
-        @media screen and (max-width: 768px) {
-            .slide { padding: 10px 40px; }
-            .nav-btn { width: 40px; height: 70px; font-size: 1.2rem; }
-            .header-panel h1 { font-size: 1rem; }
-            
-            .org-row { grid-template-columns: 1fr; text-align: center; }
-            .ajk-grid { grid-template-columns: 1fr 1fr; } /* 2 kolum di mobile */
-            .duty-wrapper { grid-template-columns: 1fr; } /* Menegak di mobile */
-            
-            .digital-clock { top: 10px; right: 60px; font-size: 0.8rem; }
-        }
+.live-now {
+    animation: pulse-live 1.5s infinite ease-in-out;
+    background: rgba(57, 255, 20, 0.2) !important;
+    border: 2px solid var(--neon-green) !important;
+    z-index: 10;
+}
 
         /* Kod Warna Subjek (DIPERBAIKI) */
-        .c-BM { background: rgba(255,0,0,0.3) !important; border-color: red !important; }
-        .c-BI { background: rgba(0,81,255,0.3) !important; border-color: #0051ff !important; }
-        .c-MT { background: rgba(255,242,0,0.2) !important; border-color: #fff200 !important; }
-        .c-SN { background: rgba(0,255,30,0.2) !important; border-color: #00ff1e !important; }
-        .c-PAI { background: rgba(0,234,255,0.2) !important; border-color: #00eaff !important; }
-        .c-PM { background: rgba(255,0,234,0.2) !important; border-color: #ff00ea !important; }
-        .c-SJ, .color-SEJ { background: rgba(255,145,0,0.3) !important; border-color: #ff9100 !important; }
-        .c-PJ, .color-PK, .color-PJK { background: rgba(149,255,0,0.2) !important; border-color: #95ff00 !important; }
-        .c-PER { background: rgba(150,150,150,0.4) !important; border-color: #fff !important; }
-        .c-BA { background: rgba(162,0,255,0.3) !important; border-color: #a200ff !important; } /* Ungu */
-        .c-TAS { background: rgba(0,255,170,0.25) !important; border-color: #00ffaa !important; } /* Hijau Mint */
-        .c-MZ { background: rgba(255,217,0,0.25) !important; border-color: #ffd900 !important; } /* Emas */
-        .c-PSV { background: rgba(255,0,115,0.25) !important; border-color: #ff0073 !important; } /* Pink */
-        .c-RBT { background: rgba(0,157,255,0.25) !important; border-color: #009dff !important; } /* Biru */
-        .c-PIU { background: rgba(0,255,100,0.3) !important; border-color: #00ff64 !important; } /* Hijau Terang */
-        .c-PIQ { background: rgba(0,200,150,0.3) !important; border-color: #00c896 !important; } /* Hijau Turquoise */
+        .color-BM { background: rgba(255,0,0,0.3) !important; border-color: red !important; }
+        .color-BI { background: rgba(0,81,255,0.3) !important; border-color: #0051ff !important; }
+        .color-MT { background: rgba(255,242,0,0.2) !important; border-color: #fff200 !important; }
+        .color-SN { background: rgba(0,255,30,0.2) !important; border-color: #00ff1e !important; }
+        .color-PAI { background: rgba(0,234,255,0.2) !important; border-color: #00eaff !important; }
+        .color-PM { background: rgba(255,0,234,0.2) !important; border-color: #ff00ea !important; }
+        .color-SJ, .color-SEJ { background: rgba(255,145,0,0.3) !important; border-color: #ff9100 !important; }
+        .color-PJ, .color-PK, .color-PJK { background: rgba(149,255,0,0.2) !important; border-color: #95ff00 !important; }
+        .color-PER { background: rgba(150,150,150,0.4) !important; border-color: #fff !important; }
+        .color-BA { background: rgba(162,0,255,0.3) !important; border-color: #a200ff !important; } /* Ungu */
+        .color-TAS { background: rgba(0,255,170,0.25) !important; border-color: #00ffaa !important; } /* Hijau Mint */
+        .color-MZ { background: rgba(255,217,0,0.25) !important; border-color: #ffd900 !important; } /* Emas */
+        .color-PSV { background: rgba(255,0,115,0.25) !important; border-color: #ff0073 !important; } /* Pink */
+        .color-RBT { background: rgba(0,157,255,0.25) !important; border-color: #009dff !important; } /* Biru */
+        .color-PIU { background: rgba(0,255,100,0.3) !important; border-color: #00ff64 !important; } /* Hijau Terang */
+        .color-PIQ { background: rgba(0,200,150,0.3) !important; border-color: #00c896 !important; } /* Hijau Turquoise */
+
+        /* UI Elements */
+        .btn-row { display: flex; gap: 10px; margin-top: 15px; }
+        .btn { padding: 10px 25px; background: transparent; border: 2px solid var(--neon-blue); color: var(--neon-blue); cursor: pointer; border-radius: 10px; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: var(--neon-blue); color: black; box-shadow: 0 0 15px var(--neon-blue); }
+        .clock { position: fixed; top: 15px; right: 15px; color: var(--neon-blue); font-weight: 900; font-size: 1.4rem; background: rgba(0,0,0,0.8); padding: 8px 15px; border-radius: 10px; border: 1px solid var(--neon-blue); z-index: 2000; }
+        
+        #alarmBanner {
+            position: fixed; top: -120px; left: 0; width: 100%;
+            background: linear-gradient(90deg, #ff0055, #ff0000);
+            color: white; padding: 20px; text-align: center;
+            font-weight: 900; z-index: 4000; transition: 0.6s;
+            font-size: 1.2rem; border-bottom: 3px solid white;
+            box-shadow: 0 5px 30px rgba(255,0,0,0.5);
+        }
+        #alarmBanner.active { top: 0; }
     </style>
 </head>
 <body>
 
-    <div class="digital-clock" id="txtClock">00:00:00</div>
+    <div id="alarmBanner">INFO: MEMULAKAN SISTEM...</div>
+    <div class="clock" id="liveClock">00:00:00</div>
+    <audio id="alarmSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
-    <button class="nav-btn btn-prev" onclick="moveSlide(-1)">❮</button>
-    <button class="nav-btn btn-next" onclick="moveSlide(1)">❯</button>
+    <button class="nav-btn nav-left" onclick="changeSlide(-1)">❮</button>
+    <button class="nav-btn nav-right" onclick="changeSlide(1)">❯</button>
 
-    <div class="viewport" id="vPort">
+    <div class="viewport" id="mainViewport">
         
         <div class="slide">
-            <div class="header-panel"><h1>STRUKTUR ORGANISASI KELAS</h1></div>
-            <div class="main-container">
-                <div class="org-wrapper">
-                    <div class="org-row">
-                        <div class="org-label">GURU KELAS</div>
-                        <div class="input-group">
-                            <input type="text" class="st-in" placeholder="GURU 1">
-                            <input type="text" class="st-in" placeholder="GURU 2">
+            <div class="header-box"><h1>STRUKTUR ORGANISASI KELAS 6 CEMERLANG</h1></div>
+            <div class="content-container">
+                <div class="struct-wrapper">
+                    <div class="struct-group">
+                        <label class="struct-label">GURU KELAS</label>
+                        <div class="guru-box">
+                            <input type="text" class="input-line st-in" placeholder="GURU 1">
+                            <span style="opacity: 0.5;">&</span>
+                            <input type="text" class="input-line st-in" placeholder="GURU 2">
                         </div>
                     </div>
-                    <div class="org-row">
-                        <div class="org-label">KETUA & PENOLONG</div>
-                        <div class="input-group">
-                            <input type="text" class="st-in" placeholder="KETUA">
-                            <input type="text" class="st-in" placeholder="PENOLONG">
-                        </div>
+                    <div class="struct-group">
+                        <label class="struct-label">KETUA KELAS</label>
+                        <input type="text" class="input-line st-in" placeholder="NAMA KETUA">
                     </div>
-                    <div class="org-row">
-                        <div class="org-label">SETIAUSAHA & BENDAHARI</div>
-                        <div class="input-group">
-                            <input type="text" class="st-in" placeholder="SETIAUSAHA">
-                            <input type="text" class="st-in" placeholder="BENDAHARI">
-                        </div>
+                    <div class="struct-group">
+                        <label class="struct-label">PENOLONG KETUA</label>
+                        <input type="text" class="input-line st-in" placeholder="NAMA PENOLONG">
                     </div>
-                    <div class="org-row" style="display: block; text-align: center;">
-                        <div class="org-label" style="margin-bottom: 10px;">AJK KEBERSIHAN / KECERIAAN / DISIPLIN</div>
+                    <div class="struct-group">
+                        <label class="struct-label">SETIAUSAHA</label>
+                        <input type="text" class="input-line st-in" placeholder="NAMA SETIAUSAHA">
+                    </div>
+                    <div class="struct-group">
+                        <label class="struct-label">BENDAHARI</label>
+                        <input type="text" class="input-line st-in" placeholder="NAMA BENDAHARI">
+                    </div>
+                    <div class="struct-group" style="display: block;">
+                        <label class="struct-label" style="display: block; margin-bottom: 10px; text-align: center;">AJK KELAS (KEBERSIHAN / KECERIAAN / KESELAMATAN)</label>
                         <div class="ajk-grid">
-                            <input type="text" class="st-in" placeholder="AJK 1">
-                            <input type="text" class="st-in" placeholder="AJK 2">
-                            <input type="text" class="st-in" placeholder="AJK 3">
-                            <input type="text" class="st-in" placeholder="AJK 4">
-                            <input type="text" class="st-in" placeholder="AJK 5">
-                            <input type="text" class="st-in" placeholder="AJK 6">
+                            <input type="text" class="input-line st-in" placeholder="AJK 1">
+                            <input type="text" class="input-line st-in" placeholder="AJK 2">
+                            <input type="text" class="input-line st-in" placeholder="AJK 3">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tools"><button class="btn-save" onclick="pushData()">💾 SIMPAN DATA</button></div>
+            <div class="btn-row"><button class="btn" onclick="saveToFirebase()">💾 SIMPAN KE AWAN</button></div>
         </div>
 
         <div class="slide">
-            <div class="header-panel"><h1>JADUAL WAKTU 6 CEMERLANG</h1></div>
-            <div class="main-container">
-                <div class="table-scroll">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width: 80px;">HARI</th>
-                                <th>07:10</th><th>07:40</th><th>08:10</th><th>08:40</th><th>09:10</th>
-                                <th style="width: 40px;">REHAT</th>
-                                <th>10:00</th><th>10:30</th><th>11:00</th><th>11:30</th><th>12:00</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ttBody"></tbody>
-                    </table>
-                </div>
+            <div class="header-box">
+                <h1>JADUAL WAKTU KELAS 6 CEMERLANG</h1>
+                <h2>SESI <input type="text" id="yearVal" maxlength="4" style="width:50px; background:transparent; border:none; color:var(--neon-pink); font-weight:bold;" value="2026"></h2>
             </div>
-            <div class="tools"><button class="btn-save" onclick="pushData()">💾 SIMPAN JADUAL</button></div>
+            <div class="content-container">
+                <table id="ttTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">HARI</th>
+                            <th>07:10-07:40</th><th>07:40-08:10</th><th>08:10-08:40</th><th>08:40-09:10</th><th>09:10-09:40</th>
+                            <th style="width: 40px;">R<br>E<br>H<br>A<br>T</th>
+                            <th>10:00-10:30</th><th>10:30-11:00</th><th>11:00-11:30</th><th>11:30-12:00</th><th>12:00-12:30</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ttBody"></tbody>
+                </table>
+            </div>
+            <div class="btn-row">
+                <button class="btn" onclick="saveToFirebase()">💾 SIMPAN JADUAL</button>
+                <button class="btn" style="border-color:var(--neon-pink); color:var(--neon-pink);" onclick="resetFirebase()">🧹 PADAM SEMUA</button>
+            </div>
         </div>
 
         <div class="slide">
-            <div class="header-panel"><h1>JADUAL BERTUGAS HARIAN</h1></div>
-            <div class="main-container">
-                <div class="duty-wrapper" id="dutyWrap"></div>
+            <div class="header-box">
+                <h1>JADUAL BERTUGAS HARIAN 6 CEMERLANG</h1>
+                <h2>KEBERSIHAN & KECERIAAN</h2>
             </div>
-            <div class="tools"><button class="btn-save" onclick="pushData()">💾 SIMPAN BERTUGAS</button></div>
+            <div class="content-container">
+                <div class="duty-grid" id="dutyContainer"></div>
+            </div>
+            <div class="btn-row"><button class="btn" onclick="saveToFirebase()">💾 SIMPAN BERTUGAS</button></div>
         </div>
 
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // CONFIGURASI FIREBASE
+        // Firebase Config (Dikekalkan)
         const firebaseConfig = {
             apiKey: "AIzaSyBtA37bRurRoe7kCTUX_aIQHNv0cjWG09A",
             authDomain: "jadualkelas-896ae.firebaseapp.com",
-            databaseURL: "https://jadualkelas-896ae-default-rtdb.asia-southeast1.firebasedatabase.app",
+	    databaseURL: "https://jadualkelas-896ae-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "jadualkelas-896ae",
             storageBucket: "jadualkelas-896ae.firebasestorage.app",
             messagingSenderId: "164261211870",
-            appId: "1:164261211870:web:03eb60e7276601953c1c4f"
+            appId: "1:164261211870:web:03eb60e7276601953c1c4f",
+            measurementId: "G-QLP6G40QMM"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const dbRef = ref(db, 'jadual_v6_pro'); // Versi baru untuk elak data null
+        const dbRef = ref(db, 'jadual_6c');
 
-        const HARI = ['ISNIN', 'SELASA', 'RABU', 'KHAMIS', 'JUMAAT'];
-        const REHAT_TXT = ['R','E','H','A','T'];
-        let curSlide = 1;
+        const hariArr = ['ISNIN', 'SELASA', 'RABU', 'KHAMIS', 'JUMAAT'];
+        const rehatTxt = ['R', 'E', 'H', 'A', 'T'];
+        
+        // SENARAI SUBJEK DIKEMASKINI (Tambah BA, TAS, PIU, PIQ)
+        const subjekList = ['BM','BI','MT','SN','PAI','PM','SJ','SEJ','PJ','PK','PJK','PSV','MZ','RBT','IBAN','TAS','TASM','NILAM','PER','BA','PIU','PIQ'];
+        
+        const slotEnds = [460, 490, 520, 550, 580, 630, 660, 690, 720, 750]; 
+        const AUTH_KOD = "jadualwaktu";
+        let activeSlide = 1;
+        let alarmTriggered = false;
 
-        // 1. BINA JADUAL & KAD BERTUGAS
-        function buildUI() {
+        // --- INIT UI ---
+        window.changeSlide = (n) => {
+            activeSlide = Math.max(0, Math.min(2, activeSlide + n));
+            document.getElementById('mainViewport').style.transform = `translateX(-${activeSlide * 100}vw)`;
+        };
+
+        function init() {
             const tt = document.getElementById('ttBody');
-            const dw = document.getElementById('dutyWrap');
+            const dc = document.getElementById('dutyContainer');
 
-            HARI.forEach((h, hIdx) => {
-                // Bina Baris Jadual
-                let row = `<tr><td style="color:var(--n-blue); font-weight:bold; text-align:center;">${h}</td>`;
-                for(let sIdx=0; sIdx<11; sIdx++) {
-                    if(sIdx === 5) {
-                        row += `<td class="rehat-cell">${REHAT_TXT[hIdx]}</td>`;
+            hariArr.forEach((h, i) => {
+                let rTT = `<tr><td style="color:var(--neon-blue); font-weight:900; text-align:center; font-size:0.7rem;">${h}</td>`;
+                for(let j=0; j<11; j++) {
+                    if(j === 5) {
+                        rTT += `<td class="rehat-col">${rehatTxt[i]}</td>`;
                     } else {
-                        row += `<td class="slot-cell" data-d="${hIdx}" data-s="${sIdx}">
-                            <input type="text" class="tt-in-sub tt-in" placeholder="-" oninput="paint(this)">
-                            <input type="text" class="tt-in-guru tt-in" placeholder="GURU">
+                        rTT += `<td class="slot-cell" data-day="${i}" data-slot="${j}">
+                            <div class="cell-content">
+                                <input type="text" class="sub-in tt-in" oninput="applyColor(this)" placeholder="-">
+                                <input type="text" class="teach-in tt-in" placeholder="GURU">
+                            </div>
                         </td>`;
                     }
                 }
-                row += `</tr>`;
-                tt.innerHTML += row;
+                rTT += `</tr>`;
+                tt.innerHTML += rTT;
 
-                // Bina Kad Bertugas
-                dw.innerHTML += `
-                <div class="duty-card">
-                    <div class="duty-title">${h}</div>
-                    <div class="task-box">
-                        <span class="task-label">🧹 MENYAPU</span>
-                        <textarea class="dt-in"></textarea>
-                    </div>
-                    <div class="task-box">
-                        <span class="task-label">🪑 MEJA & KERUSI</span>
-                        <textarea class="dt-in"></textarea>
-                    </div>
-                    <div class="task-box">
-                        <span class="task-label">🗑️ SAMPAH</span>
-                        <textarea class="dt-in"></textarea>
-                    </div>
-                </div>`;
+                dc.innerHTML += `
+    <div class="duty-card">
+        <div class="duty-day-title">${h}</div>
+        <div class="duty-task">
+            <label class="task-label"><span class="emoji-large">🧹</span> MENYAPU</label>
+            <textarea class="dt-in" placeholder="NAMA"></textarea>
+        </div>
+        <div class="duty-task">
+            <label class="task-label"><span class="emoji-large">🪑</span>  KERUSI & MEJA</label>
+            <textarea class="dt-in" placeholder="NAMA"></textarea>
+        </div>
+        <div class="duty-task">
+            <label class="task-label"><span class="emoji-large">🗑️</span> SAMPAH</label>
+            <textarea class="dt-in" placeholder="NAMA"></textarea>
+        </div>
+    </div>
+`;
             });
-            moveSlide(0); 
-        }
 
-        // 2. NAVIGASI
-        window.moveSlide = (n) => {
-            curSlide = Math.max(0, Math.min(2, curSlide + n));
-            document.getElementById('vPort').style.transform = `translateX(-${curSlide * 100}vw)`;
-        };
-
-        // 3. WARNA SUBJEK
-        window.paint = (el) => {
-            const v = el.value.toUpperCase();
-            const td = el.closest('td');
-            const colors = ['BM', 'BI', 'MT', 'SN'];
-            colors.forEach(c => td.classList.remove(`c-${c}`));
-            if(colors.includes(v)) td.classList.add(`c-${v}`);
-        };
-
-        // 4. MASA & AUTO-HIGHLIGHT
-        function startClock() {
-            setInterval(() => {
-                const now = new Date();
-                const h = now.getHours();
-                const m = now.getMinutes();
-                const currentMin = h * 60 + m;
-                const day = now.getDay() - 1; // 0 = Isnin
-
-                document.getElementById('txtClock').innerText = now.toLocaleTimeString('ms-MY', {hour12:false});
-
-                document.querySelectorAll('.slot-cell').forEach(c => c.classList.remove('slot-active'));
-
-                const slotStarts = [430, 460, 490, 520, 550, 600, 630, 660, 690, 720];
-                if(day >= 0 && day <= 4) {
-                    slotStarts.forEach((s, i) => {
-                        if(currentMin >= s && currentMin < s+30) {
-                            const vIdx = i >= 5 ? i + 1 : i;
-                            const target = document.querySelector(`.slot-cell[data-d="${day}"][data-s="${vIdx}"]`);
-                            if(target) target.classList.add('slot-active');
-                        }
-                    });
-                }
-            }, 1000);
-        }
-
-        // 5. FIREBASE: LOAD DATA
-        function loadData() {
-            onValue(dbRef, (snap) => {
-                const data = snap.val();
-                if(!data) return;
-
-                const st = document.querySelectorAll('.st-in');
-                const tt = document.querySelectorAll('.tt-in');
-                const dt = document.querySelectorAll('.dt-in');
-
-                if(data.st) data.st.forEach((v, i) => { if(st[i]) st[i].value = v; });
-                if(data.tt) data.tt.forEach((v, i) => { 
-                    if(tt[i]) {
-                        tt[i].value = v;
-                        if(tt[i].classList.contains('tt-in-sub')) paint(tt[i]);
+            // Muat data dari Firebase
+            onValue(dbRef, (snapshot) => {
+                const d = snapshot.val();
+                if (!d) return;
+                
+                if (d.y) document.getElementById('yearVal').value = d.y;
+                const stIn = document.querySelectorAll('.st-in');
+                d.st?.forEach((v, i) => { if(stIn[i]) stIn[i].value = v; });
+                
+                const ttIn = document.querySelectorAll('.tt-in');
+                d.tt?.forEach((v, i) => { 
+                    if(ttIn[i]) {
+                        ttIn[i].value = v;
+                        if(ttIn[i].classList.contains('sub-in')) applyColor(ttIn[i]);
                     }
                 });
-                if(data.dt) data.dt.forEach((v, i) => { if(dt[i]) dt[i].value = v; });
+                
+                const dtIn = document.querySelectorAll('.dt-in');
+                d.dt?.forEach((v, i) => { if(dtIn[i]) dtIn[i].value = v; });
             });
+
+            setInterval(runSystem, 1000);
         }
 
-        // 6. FIREBASE: SAVE DATA
-        window.pushData = () => {
-            const code = prompt("KOD PENGESAHAN:");
-            if(code !== "jadualwaktu") return alert("KOD SALAH!");
+        // LOGIK WARNA (DIPERBAIKI UNTUK BA, TS, PIU, PIQ)
+        window.applyColor = (el) => {
+            let val = el.value.trim().toUpperCase();
+            
+            // Pemetaan Singkatan ke Kelas CSS
+            if (val === 'SEJARAH') val = 'SEJ';
+            if (val.includes('PJ')) val = 'PJK';
+            if (val === 'TS') val = 'TAS';
+            if (val.includes('PIU')) val = 'PIU';
+            if (val.includes('PIQ')) val = 'PIQ';
+            if (val === 'TASM') val = 'TAS';
 
-            const dataObj = {
-                st: Array.from(document.querySelectorAll('.st-in')).map(i => i.value),
-                tt: Array.from(document.querySelectorAll('.tt-in')).map(i => i.value),
-                dt: Array.from(document.querySelectorAll('.dt-in')).map(i => i.value)
-            };
-
-            set(dbRef, dataObj)
-                .then(() => alert("✅ DATA DISIMPAN!"))
-                .catch(e => alert("RALAT: " + e.message));
+            const td = el.closest('td');
+            // Padam semua kelas warna sedia ada
+            subjekList.forEach(s => td.classList.remove(`color-${s}`));
+            
+            // Tambah kelas warna jika padan
+            if (subjekList.includes(val)) {
+                td.classList.add(`color-${val}`);
+            }
         };
 
-        buildUI();
-        startClock();
-        loadData();
+        // --- SISTEM AUTOMATIK ---
+        function runSystem() {
+            const now = new Date();
+            const hms = now.toLocaleTimeString('ms-MY', {hour12:false});
+            document.getElementById('liveClock').innerText = hms;
+
+            const currentMins = now.getHours() * 60 + now.getMinutes();
+            const currentDay = now.getDay() - 1;
+
+            document.querySelectorAll('.slot-cell').forEach(c => c.classList.remove('active-period'));
+            
+            const slotStarts = [430, 460, 490, 520, 550, 600, 630, 660, 690, 720];
+            
+            slotStarts.forEach((start, idx) => {
+                const end = slotEnds[idx];
+                if (currentMins >= start && currentMins < end) {
+                    const visualSlot = idx >= 5 ? idx + 1 : idx;
+                    const activeCell = document.querySelector(`.slot-cell[data-day="${currentDay}"][data-slot="${visualSlot}"]`);
+                    if (activeCell) activeCell.classList.add('active-period');
+                }
+            });
+
+            let showAlarm = false;
+            let bannerMsg = "";
+
+            if (currentDay >= 0 && currentDay <= 4) {
+                slotEnds.forEach((end, idx) => {
+                    const diff = end - currentMins;
+                    if (diff > 0 && diff <= 5) {
+                        showAlarm = true;
+                        const rows = document.querySelectorAll('#ttBody tr');
+                        const currentRow = rows[currentDay];
+                        const currentVisualIdx = idx >= 5 ? idx + 1 : idx;
+                        const nextVisualIdx = (idx + 1) >= 5 ? (idx + 1) + 1 : (idx + 1);
+
+                        const currentSub = currentRow.querySelector(`td[data-slot="${currentVisualIdx}"] .sub-in`)?.value || "SUBJEK";
+                        let nextSub = "BALIK";
+                        if (idx < 9) {
+                            nextSub = currentRow.querySelector(`td[data-slot="${nextVisualIdx}"] .sub-in`)?.value || "SUBJEK SETERUSNYA";
+                        }
+                        if (idx === 4) nextSub = "REHAT";
+
+                        bannerMsg = `⚠️ SUBJEK [${currentSub}] AKAN TAMAT. SILA BERSEDIA UNTUK [${nextSub}].`;
+                    }
+                });
+            }
+
+            const banner = document.getElementById('alarmBanner');
+            const sound = document.getElementById('alarmSound');
+
+            if (showAlarm) {
+                banner.innerText = bannerMsg;
+                banner.classList.add('active');
+                if (!alarmTriggered) {
+                    sound.play().catch(e => console.log("Audio perlukan klik pertama user."));
+                    alarmTriggered = true;
+                }
+            } else {
+                banner.classList.remove('active');
+                alarmTriggered = false;
+            }
+        }
+
+        // --- DATABASE ---
+window.saveToFirebase = () => {
+    const inputKod = prompt("KOD AKSES:");
+    if (inputKod !== AUTH_KOD) return alert("KOD SALAH!");
+
+    const data = {
+        y: document.getElementById('yearVal').value,
+        st: Array.from(document.querySelectorAll('.st-in')).map(i => i.value),
+        tt: Array.from(document.querySelectorAll('.tt-in')).map(i => i.value),
+        dt: Array.from(document.querySelectorAll('.dt-in')).map(i => i.value)
+    };
+
+    console.log("Memulakan proses simpan...");
+
+    set(dbRef, data)
+        .then(() => {
+            alert("✅ DATA BERJAYA DISIMPAN KE AWAN!");
+        })
+        .catch((error) => {
+            console.error("Ralat Firebase:", error);
+            alert("❌ GAGAL DISIMPAN: " + error.message);
+        });
+};
+
+        init();
+	changeSlide(0);
     </script>
 </body>
 </html>
